@@ -1,8 +1,8 @@
 package com.sayatakar.authdemo;
 
-import static com.thebengalstudio.authentication.Service.LogInCheck.*;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static com.thebengalstudio.authentication.Service.LogInCheck.LogInCheck;
+import static com.thebengalstudio.authentication.Service.LogInCheck.LogOut;
+import static com.thebengalstudio.authentication.Service.LogInCheck.LogOutAll;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,44 +11,41 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.thebengalstudio.authentication.SignUpProcess.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.thebengalstudio.authentication.SignUpProcess.LogIn;
 
 public class MainActivity extends AppCompatActivity {
 
     Context context = MainActivity.this;
     Activity activity = MainActivity.this;
-
     int logInReqCode = 200;
-    int logOutReqCode = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(!LogInCheck(context)){
+        if (!LogInCheck(context)) {
             Intent intent = new Intent(context, LogIn.class);
-            intent.putExtra("app_uid", "app_uid0123" );
-            intent.putExtra("app_passcode", "app_passcode2352" );
-            startActivityForResult(intent,logInReqCode); // Activity is started with requestCode 2
-        }else {
+            intent.putExtra("app_uid", "app_uid0123");
+            intent.putExtra("app_passcode", "app_passcode2352");
+            startActivityForResult(intent, logInReqCode); // Activity is started with requestCode 2
+        } else {
             Toast.makeText(context, "sign in", Toast.LENGTH_SHORT).show();
         }
 
 
     }
 
-
     // Call Back method  to get the Message form other Activity
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
 
-            if (requestCode == logInReqCode) {;
+            if (requestCode == logInReqCode) {
 
                 String app_passcode = data.getStringExtra("app_passcode");
                 String tbs_uid = data.getStringExtra("tbs_uid");
@@ -59,33 +56,26 @@ public class MainActivity extends AppCompatActivity {
                 String auth_password = data.getStringExtra("auth_password");
                 String verify_password = data.getStringExtra("verify_password");
 
-                String tooo = "app_passcode: "+app_passcode+"\ntbs_uid: "+tbs_uid+"app_uid: "+app_uid+"\nauth_uid: "+auth_uid+
-                        "app_packge_name: "+app_packge_name+"\napp_status: "+app_status+
-                        "auth_password: "+auth_password+"\nverify_password: "+verify_password;
+                String tooo = "app_passcode: " + app_passcode + "\ntbs_uid: " + tbs_uid + "app_uid: " + app_uid + "\nauth_uid: " + auth_uid + "app_packge_name: " + app_packge_name + "\napp_status: " + app_status + "auth_password: " + auth_password + "\nverify_password: " + verify_password;
                 Toast.makeText(context, tooo, Toast.LENGTH_SHORT).show();
-
-
-            }else if (requestCode == logOutReqCode){
 
             }
         }
 
-
-
     }
 
     public void logout(View view) {
-        if(LogOut(context)){
+        if (LogOut(context)) {
             Toast.makeText(context, "Log Out Successful", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "Already log out", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void logout_all(View view) {
-        if(LogOutAll(context)){
+        if (LogOutAll(context)) {
             Toast.makeText(context, "Log Out Successful", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "Already log out", Toast.LENGTH_SHORT).show();
         }
     }
